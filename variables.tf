@@ -67,6 +67,19 @@ variable "username_db" {
   default     = "javier"
 }
 
+variable "password_db" {
+  description = "password"
+  type        = string
+  default     = "1q2w3e4R"
+}
+
+variable "group_db" {
+  description = "group de la db"
+  type        = string
+  default     = "default.mysql5.7"
+}
+
+
 
 
 
