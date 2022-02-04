@@ -12,6 +12,16 @@ variable "aws_region" {
 
 #
 # instances.tf
+#
+
+# claus
+
+variable "key_pair" {
+  description = "SSH Key pair used to connect"
+  type        = string
+  default     = "mykey"
+}
+
 # ec2
 
 variable "ami_ec2" {
