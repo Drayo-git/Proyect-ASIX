@@ -16,7 +16,7 @@ resource "aws_instance" "Mail" {
       EOF
 
  provisioner "local-exec" {
-  command = "echo ${aws_instance.WordPress.public_ip} > publicIP.txt"
+  command = "echo ${aws_instance.Mail.public_ip} > publicIP.txt"
  }
 
 }
