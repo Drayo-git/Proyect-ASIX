@@ -31,6 +31,7 @@ resource "aws_instance" "Mail" {
 # Llençant la base de dades RDS
 resource "aws_db_instance" "DataBase" {
   allocated_storage    = 20
+
 #  max_allocated_storage = 100
   storage_type         = var.storage_type_db
   engine               = var.engine_type_db
@@ -50,3 +51,4 @@ provisioner "local-exec" {
     }
 
 }
+
