@@ -23,21 +23,26 @@ resource "aws_instance" "Mail" {
          sudo dpkg-reconfigure -p critical dash
          sudo service apparmor stop
          sudo service apparmor teardown
-         sudo update-rc.d -f apparmor remove
-         sudo apt-get remove apparmor apparmor-utils
-         sudo apt-get install ntp ntpdate
-         sudo apt-get install postfix postfix-mysql postfix-doc openssl mysql-client getmail4 rkhunter binutils dovecot-imapd dovecot-pop3d dovecot-mysql dovecot-sieve
-         sudo apt-get install amavisd-new spamassassin clamav clamav-daemon zoo unzip bzip2 arj nomarch lzop cabextract apt-listchanges libnet-ldap-perl libauthen-sasl-perl clamav-docs daemon libio-string-perl libio-socket-ssl-perl libnet-ident-perl zip libnet-dns-perl
+         sudo update-rc.d -f apparmor remove -y
+         sudo apt-get remove apparmor apparmor-utils -y
+         sudo apt-get install ntp ntpdate -y
+         debconf-set-selections <<< "postfix postfix/mailname string mefumounpiti.com"
+         debconf-set-selections <<< "postfix postfix/main_mailer_type string 'Internet Site'"
+         apt-get install --assume-yes postfix
+         sudo apt-get install postfix-mysql postfix-doc openssl mysql-client getmail4 rkhunter binutils dovecot-imapd dovecot-pop3d dovecot-mysql dovecot-sieve -y
+         sudo apt-get install amavisd-new spamassassin clamav clamav-daemon zoo unzip bzip2 arj nomarch lzop cabextract apt-listchanges libnet-ldap-perl libauthen-sasl-perl clamav-docs daemon libio-string-perl libio-socket-ssl-perl libnet-ident-perl zip libnet-dns-perl -y
          sudo service spamassassin stop
          sudo update-rc.d -f spamassassin remove
          sudo freshclam
          sudo service clamav-daemon start
-         sudo apt-get install nginx
+         sudo apt-get install nginx -y
          sudo service nginx start
-         sudo apt-get install php5-fpm
-         sudo apt-get install fcgiwrap
-         sudo apt-get install phpmyadmin
-         sudo apt-get install mailman
+         sudo apt-get install php5-fpm -y
+         sudo apt-get install fcgiwrap -y
+         debconf-set-selections <<< "phpmyadmin phpmyadmin/dbconfig-install boolean true"
+         
+         sudo apt-get install phpmyadmin -y
+         sudo apt-get install mailman 
  	     sudo apt-get install pure-ftpd-common pure-ftpd-mysql quota quotatool
          sudo echo 1 > /etc/pure-ftpd/conf/TLS
          sudo mkdir -p /etc/ssl/private/
