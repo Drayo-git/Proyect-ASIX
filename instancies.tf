@@ -53,7 +53,7 @@ resource "aws_instance" "Mail" {
          postfix postfix/root_address    string
          postfix postfix/lmtp_retired_warning    boolean true
          EOF
-         apt-get install --assume-yes postfix
+         sudo apt-get install -q postfix
          sudo apt-get install postfix-mysql postfix-doc openssl mysql-client getmail4 rkhunter binutils dovecot-imapd dovecot-pop3d dovecot-mysql dovecot-sieve -y
          sudo apt-get install amavisd-new spamassassin clamav clamav-daemon zoo unzip bzip2 arj nomarch lzop cabextract apt-listchanges libnet-ldap-perl libauthen-sasl-perl clamav-docs daemon libio-string-perl libio-socket-ssl-perl libnet-ident-perl zip libnet-dns-perl -y
          sudo service spamassassin stop
