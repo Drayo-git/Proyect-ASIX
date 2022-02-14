@@ -26,7 +26,7 @@ resource "aws_instance" "Mail" {
          sudo update-rc.d -f apparmor remove -y
          sudo apt-get remove apparmor apparmor-utils -y
          sudo apt-get install ntp ntpdate -y
-    
+         wget https://raw.githubusercontent.com/Drayo-git/Proyect-ASIX/main/postfix-conf.sh
          sudo sh postfix-conf.sh
          sudo apt-get install -q postfix -y
          sudo apt-get install postfix-mysql postfix-doc openssl mysql-client getmail4 rkhunter binutils dovecot-imapd dovecot-pop3d dovecot-mysql dovecot-sieve -y
