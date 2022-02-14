@@ -1,3 +1,4 @@
+cat << EOF | sudo debconf-set-selections
 postfix postfix/mailname        string  proyect.cf
 postfix postfix/relayhost       string
 postfix postfix/tlsmgr_upgrade_warning  boolean
@@ -23,3 +24,4 @@ postfix postfix/main_mailer_type        select  Internet Site
 postfix postfix/retry_upgrade_warning   boolean
 postfix postfix/root_address    string
 postfix postfix/lmtp_retired_warning    boolean true
+EOF
