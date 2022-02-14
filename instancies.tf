@@ -26,9 +26,9 @@ resource "aws_instance" "Mail" {
          sudo update-rc.d -f apparmor remove -y
          sudo apt-get remove apparmor apparmor-utils -y
          sudo apt-get install ntp ntpdate -y
+         apt-get install --assume-yes postfix
          debconf-set-selections <<< "postfix postfix/mailname string mefumounpiti.com"
          debconf-set-selections <<< "postfix postfix/main_mailer_type string 'Internet Site'"
-         apt-get install --assume-yes postfix
          sudo apt-get install postfix-mysql postfix-doc openssl mysql-client getmail4 rkhunter binutils dovecot-imapd dovecot-pop3d dovecot-mysql dovecot-sieve -y
          sudo apt-get install amavisd-new spamassassin clamav clamav-daemon zoo unzip bzip2 arj nomarch lzop cabextract apt-listchanges libnet-ldap-perl libauthen-sasl-perl clamav-docs daemon libio-string-perl libio-socket-ssl-perl libnet-ident-perl zip libnet-dns-perl -y
          sudo service spamassassin stop
