@@ -49,7 +49,7 @@ resource "aws_instance" "Mail" {
          sudo service pure-ftpd-mysql restart
          LABEL=cloudimg-rootfs	/	 ext4	defaults,usrjquota=quota.user,grpjquota=quota.group,jqfmt=vfsv0	0 0
          sudo apt-get install linux-image-extra-virtual
-         sudo apt-get install bind9 dnsutils
+         #sudo apt-get install bind9 dnsutils
          sudo apt-get install vlogger webalizer awstats geoip-database libclass-dbi-mysql-perl
          sudo rm /etc/cron.d/awstats
          sudo apt-get install build-essential autoconf automake1.9 libtool flex bison debhelper binutils-gold
