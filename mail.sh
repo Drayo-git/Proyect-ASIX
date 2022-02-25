@@ -1,4 +1,4 @@
-!/bin/bash
+#!/bin/bash
 sudo service apparmor stop
 sudo service apparmor teardown
 sudo update-rc.d -f apparmor remove -y
