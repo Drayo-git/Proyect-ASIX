@@ -17,7 +17,9 @@ resource "aws_instance" "Mail" {
      Name = "Mail"
   }
 
-  user_data = "${file("mail.sh")}"
+  user_data = templatefile("mail.sh", {
+    rdshost = "${aws_db_instance.DataBase.endpoint}"
+  })
         
 
  provisioner "local-exec" {
