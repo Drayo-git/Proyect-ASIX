@@ -67,20 +67,20 @@ variable "instance_type_db" {
 variable "name_db" {
   description = "name"
   type        = string
-  default     = "javieselmillor"
+  default     = "rouncube"
 }
 
 
 variable "username_db" {
   description = "username"
   type        = string
-  default     = "javier"
+  default     = "rouncube"
 }
 
 variable "password_db" {
   description = "password"
   type        = string
-  default     = "1q2w3e4R"
+  default     = "Puerta69%2A"
 }
 
 variable "group_db" {
