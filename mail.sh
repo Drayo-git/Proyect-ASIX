@@ -1,52 +1,59 @@
 #!/bin/bash
-sudo service apparmor stop
-sudo service apparmor teardown
-sudo update-rc.d -f apparmor remove -y
-sudo apt-get remove apparmor apparmor-utils -y
-sudo apt-get install ntp ntpdate -y
-wget https://raw.githubusercontent.com/Drayo-git/Proyect-ASIX/main/postfix-conf>
+#change hostname
+sudo hostnamectl set-hostname mailserver
+sudo rm /etc/hosts
+echo "127.0.0.1 localhost" | sudo tee /etc/hosts
+echo "127.0.0.1 mailserver.proyect.cf mailserver" | sudo tee -a /etc/hosts
+#update
+sudo apt-get update
+sudo apt-get upgrade -y
+#users
+sudo useradd -m test1
+echo test1:qweR1234 | sudo chpasswd
+sudo useradd -m test2
+echo test2:qweR1234 | sudo chpasswd
+#postfix install
+sudo wget https://raw.githubusercontent.com/Drayo-git/Proyect-ASIX/main/postfix-conf.sh
 sudo sh postfix-conf.sh
 sudo apt-get install -q postfix -y
-sudo apt-get install postfix-mysql postfix-doc openssl mysql-client getmail4 rk>
-sudo apt-get install amavisd-new spamassassin clamav clamav-daemon zoo unzip bz>
-sudo service spamassassin stop
-sudo update-rc.d -f spamassassin remove
-sudo freshclam
-sudo service clamav-daemon start
-sudo apt-get install nginx -y
-sudo service nginx start
-sudo apt-get install php5-fpm -y
-sudo apt-get install fcgiwrap -y
-sudo apt-get install phpmyadmin -y
-sudo apt-get install phpmyadmin -y
-sudo apt-get install mailman
-sudo apt-get install pure-ftpd-common pure-ftpd-mysql quota quotatool
-sudo echo 1 > /etc/pure-ftpd/conf/TLS
-sudo mkdir -p /etc/ssl/private/
-openssl req -x509 -nodes -days 7300 -newkey rsa:2048 -keyout /etc/ssl/private/p>
-chmod 600 /etc/ssl/private/pure-ftpd.pem
-sudo service pure-ftpd-mysql restart
-LABEL=cloudimg-rootfs / ext4 defaults,usrjquota=quota.user,grpjquota=quota.grou>
-sudo apt-get install linux-image-extra-virtual
-sudo apt-get install bind9 dnsutils
-sudo apt-get install vlogger webalizer awstats geoip-database libclass-dbi-mysq>
-sudo rm /etc/cron.d/awstats
-sudo apt-get install build-essential autoconf automake1.9 libtool flex bison de>
-cd /tmp
-wget http://olivier.sessink.nl/jailkit/jailkit-2.17.tar.gz
-tar xvfz jailkit-2.17.tar.gz
-cd jailkit-2.17
-sudo ./debian/rules binary
-cd ..
-sudo dpkg -i jailkit_2.17-1_*.deb
-sudo rm -rf jailkit-2.17*
-cd ..
-sudo apt-get install fail2ban
-sudo service apache2 stop
-sudo apt-get remove apache2
-sudo update-rd.d apache2 remove
-sudo service nginx restart
-cd /tmp
-wget http://www.ispconfig.org/downloads/ISPConfig-3-stable.tar.gz
-tar xfz ISPConfig-3-stable.tar.gz
-cd ispconfig3_install/install/
+sudo postconf -e "home_mailbox= Maildir/"
+
+#dovecot install
+sudo apt-get install dovecot-core dovecot-imapd dovecot-pop3d -y
+sudo wget https://raw.githubusercontent.com/Drayo-git/Proyect-ASIX/main/10-auth.conf
+sudo wget https://raw.githubusercontent.com/Drayo-git/Proyect-ASIX/main/10-mail.conf
+sudo cp 10-mail.conf /etc/dovecot/conf.d/10-mail.conf
+sudo cp 10-auth.conf /etc/dovecot/conf.d/10-auth.conf
+
+#mysql install
+sudo apt-get install mysql-server -y
+sudo apt-get install mysql-server-core-8.0 -y
+sudo apt-get install mysql-server-client-8.0 -y
+
+#mysql conf
+mysql -e "CREATE DATABASE roundcube;"
+mysql -e "CREATE USER roundcube@localhost IDENTIFIED BY 'Puerta69*';"
+mysql -e "GRANT ALL PRIVILEGES ON roundcube.* TO 'roundcube'@'localhost';"
+mysql -e "FLUSH PRIVILEGES;"
+
+#Rouncube configurations
+sudo apt install php7.4 libapache2-mod-php7.4 php7.4-common php7.4-mysql php7.4-cli php-pear php7.4-opcache php7.4-gd php7.4-curl php7.4-cli php7.4-imap php7.4-mbstring php7.4-intl php7.4-soap php7.4-ldap php-imagick php7.4-xmlrpc php7.4-xml php7.4-zip -y
+sudo pear install Auth_SASL2 Net_SMTP Net_IDNA2-0.1.1 Mail_mime Mail_mimeDecode
+sudo wget https://github.com/roundcube/roundcubemail/releases/download/1.5.2/roundcubemail-1.5.2-complete.tar.gz
+sudo tar -xvzf roundcubemail-1.5.2-complete.tar.gz
+sudo mv roundcubemail-1.5.2 /var/www/roundcube
+sudo rm -r /var/www/roundcube/installer
+sudo wget https://raw.githubusercontent.com/Drayo-git/Proyect-ASIX/main/config.inc.php
+sudo wget https://raw.githubusercontent.com/Drayo-git/Proyect-ASIX/main/defaults.inc.php
+sudo mv defaults.inc.php /var/www/roundcube/config/defaults.inc.php
+sudo mv config.inc.php /var/www/roundcube/config/config.inc.php
+sudo chown -R www-data:www-data /var/www/roundcube/
+sudo wget https://raw.githubusercontent.com/Tikijavi/Mail-terraform/main/004-roundcube.conf
+sudo mv 004-roundcube.conf /etc/apache2/sites-available/004-roundcube.conf
+sudo a2dissite 000-default.conf
+sudo a2ensite 004-roundcube.conf
+sudo a2enmod rewrite
+#reboot services
+sudo systemctl restart postfix
+sudo systemctl restart dovecot
+sudo service apache2 restart
