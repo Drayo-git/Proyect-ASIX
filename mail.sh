@@ -47,6 +47,7 @@ sudo wget https://raw.githubusercontent.com/Drayo-git/Proyect-ASIX/main/config.i
 sudo wget https://raw.githubusercontent.com/Drayo-git/Proyect-ASIX/main/defaults.inc.php
 sudo mv defaults.inc.php /var/www/roundcube/config/defaults.inc.php
 sudo mv config.inc.php /var/www/roundcube/config/config.inc.php
+sudo sed -i "31 i $config['db_dsnw'] = 'mysql://roundcube:Puerta69%2A@'${aws_db_instance.DataBase.endpoint}'/roundcube';" /var/www/roundcube/config/config.inc.php 
 sudo chown -R www-data:www-data /var/www/roundcube/
 sudo wget https://raw.githubusercontent.com/Tikijavi/Mail-terraform/main/004-roundcube.conf
 sudo mv 004-roundcube.conf /etc/apache2/sites-available/004-roundcube.conf
