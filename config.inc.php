@@ -28,7 +28,7 @@
 
 //       e.g. 'mysql://roundcube:@localhost/roundcubemail?verify_server_cert=false'
 
-$config['db_dsnw'] = 'mysql://roundcube:Puerta69%2A@localhost/roundcube';
+
 
 // ----------------------------------
 
