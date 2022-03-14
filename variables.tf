@@ -67,14 +67,14 @@ variable "instance_type_db" {
 variable "name_db" {
   description = "name"
   type        = string
-  default     = "rouncube"
+  default     = "roundcube"
 }
 
 
 variable "username_db" {
   description = "username"
   type        = string
-  default     = "rouncube"
+  default     = "roundcube"
 }
 
 variable "password_db" {
