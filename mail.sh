@@ -32,7 +32,7 @@ sudo apt-get install mysql-server-client-8.0 -y
 
 #mysql conf
 mysql -e "CREATE DATABASE roundcube;"
-mysql -e "CREATE USER roundcube@localhost IDENTIFIED BY 'Puerta69*';"
+mysql -e "CREATE USER roundcube@localhost IDENTIFIED BY 'Puerta69%2A@';"
 mysql -e "GRANT ALL PRIVILEGES ON roundcube.* TO 'roundcube'@'localhost';"
 mysql -e "FLUSH PRIVILEGES;"
 
