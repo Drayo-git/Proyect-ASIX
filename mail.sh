@@ -54,6 +54,8 @@ sudo mv 004-roundcube.conf /etc/apache2/sites-available/004-roundcube.conf
 sudo a2dissite 000-default.conf
 sudo a2ensite 004-roundcube.conf
 sudo a2enmod rewrite
+sudo mysql -h ${rdshost} -u root -p"Puerta69%2A@" 'roundcube' < /var/www/roundcube/SQL/mysql.initial.sql
+sudo rm -rf /var/www/html/roundcube/installer
 #reboot services
 sudo systemctl restart postfix
 sudo systemctl restart dovecot
