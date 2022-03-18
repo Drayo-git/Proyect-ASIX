@@ -32,7 +32,7 @@ sudo apt-get install mysql-server-client-8.0 -y
 
 #mysql conf
 mysql -e "CREATE DATABASE roundcube;"
-mysql -e "CREATE USER roundcube@localhost IDENTIFIED BY 'Puerta69%2A@';"
+mysql -e "CREATE USER roundcube@localhost IDENTIFIED BY 'Puerta69%2A';"
 mysql -e "GRANT ALL PRIVILEGES ON roundcube.* TO 'roundcube'@'localhost';"
 mysql -e "FLUSH PRIVILEGES;"
 
@@ -54,7 +54,7 @@ sudo mv 004-roundcube.conf /etc/apache2/sites-available/004-roundcube.conf
 sudo a2dissite 000-default.conf
 sudo a2ensite 004-roundcube.conf
 sudo a2enmod rewrite
-sudo mysql -h ${rdshost} -u root -p"Puerta69%2A@" 'roundcube' < /var/www/roundcube/SQL/mysql.initial.sql
+sudo mysql -h ${rdshost} -u root -p"Puerta69%2A" 'roundcube' < /var/www/roundcube/SQL/mysql.initial.sql
 sudo rm -rf /var/www/html/roundcube/installer
 #reboot services
 sudo systemctl restart postfix
