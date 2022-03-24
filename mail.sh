@@ -42,19 +42,18 @@ sudo pear install Auth_SASL2 Net_SMTP Net_IDNA2-0.1.1 Mail_mime Mail_mimeDecode
 sudo wget https://github.com/roundcube/roundcubemail/releases/download/1.5.2/roundcubemail-1.5.2-complete.tar.gz
 sudo tar -xvzf roundcubemail-1.5.2-complete.tar.gz
 sudo mv roundcubemail-1.5.2 /var/www/roundcube
-sudo rm -r /var/www/roundcube/installer
 sudo wget https://raw.githubusercontent.com/Drayo-git/Proyect-ASIX/main/config.inc.php
 sudo wget https://raw.githubusercontent.com/Drayo-git/Proyect-ASIX/main/defaults.inc.php
 sudo mv defaults.inc.php /var/www/roundcube/config/defaults.inc.php
 sudo mv config.inc.php /var/www/roundcube/config/config.inc.php
-sudo sed -i "31 i $config['db_dsnw'] = 'mysql://roundcube:Puerta69%2A@${rdshost}/roundcube';" /var/www/roundcube/config/config.inc.php 
+sudo sed -i "31 i $config['db_dsnw'] = 'mysql://roundcube:Puerta692A@${rdshost}/roundcube';" /var/www/roundcube/config/config.inc.php 
 sudo chown -R www-data:www-data /var/www/roundcube/
 sudo wget https://raw.githubusercontent.com/Tikijavi/Mail-terraform/main/004-roundcube.conf
 sudo mv 004-roundcube.conf /etc/apache2/sites-available/004-roundcube.conf
 sudo a2dissite 000-default.conf
 sudo a2ensite 004-roundcube.conf
 sudo a2enmod rewrite
-sudo mysql -h ${rdshost} -u root -p"Puerta692A" 'roundcube' < /var/www/roundcube/SQL/mysql.initial.sql
+sudo mysql -h ${rdshost} -u roundcube -p"Puerta692A" 'roundcube' < /var/www/roundcube/SQL/mysql.initial.sql
 sudo rm -rf /var/www/html/roundcube/installer
 #reboot services
 sudo systemctl restart postfix
