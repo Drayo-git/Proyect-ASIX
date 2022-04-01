@@ -97,3 +97,5 @@ $config['product_name'] = 'Roundcube';
 // List of active plugins (in plugins/ directory)
 
 $config['plugins'] = [];
+
+$config['enable_installer'] = true;
